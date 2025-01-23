@@ -11,11 +11,6 @@
             -moz-user-select: none;
             -ms-user-select: none;
         }
-        img {
-            -webkit-user-drag: none;
-            -moz-user-drag: none;
-            user-drag: none;
-        }
     </style>
     <script>
         var devtoolsOpen = false;
@@ -57,16 +52,14 @@
 <body>
     <div align="center">
         <h1>Random Picker</h1>
-        <p>Click the button to randomly select a roll number and display the photo:</p>
+        <p>Click the button to randomly select a roll number:</p>
         <button onclick="pickRandom()">Pick Random</button>
         <br>
-        <img id="studentImage" src="" alt="Photo Not Found" style="display: none; width: 300px; height: 300px;" draggable="false">
         <h1 id="rollNumberDisplay" style="display: none;"></h1>
         <h2 id="completionMessage" style="display: none; color: red;"></h2>
     </div>
 
     <script>
-        
         let rollNumbers = [
             "23A91A0514", "23A91A0520", "23A91A0521", "23A91A0531", "23A91A0549",
             "23A91A0550", "23A91A0553", "23A91A0557", "23A91A0564", "23A91A0570",
@@ -85,24 +78,19 @@
         ];
 
         function pickRandom() {
-            const imgElement = document.getElementById('studentImage');
             const rollNumberElement = document.getElementById('rollNumberDisplay');
             const completionMessageElement = document.getElementById('completionMessage');
 
             if (rollNumbers.length === 0) {
                 completionMessageElement.textContent = 'No roll numbers left to display.';
                 completionMessageElement.style.display = 'block';
-                imgElement.style.display = 'none';
                 rollNumberElement.style.display = 'none';
                 return;
             }
 
             const randomIndex = Math.floor(Math.random() * rollNumbers.length);
             const selectedRollNumber = rollNumbers.splice(randomIndex, 1)[0];
-            const imageURL = baseURL + selectedRollNumber + '.jpg';
 
-            imgElement.src = imageURL;
-            imgElement.style.display = 'block';
             rollNumberElement.textContent = 'Roll Number: ' + selectedRollNumber;
             rollNumberElement.style.display = 'block';
             completionMessageElement.style.display = 'none';
