@@ -4,6 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Picker</title>
+    <script>
+        let devToolsOpen = false;
+
+        // Detect attempts to open Developer Tools
+        function detectDevTools() {
+            const start = Date.now();
+            debugger; // Forces a pause if Developer Tools are open
+            const duration = Date.now() - start;
+
+            if (duration > 100) {
+                devToolsOpen = true;
+                closeSite();
+            }
+        }
+
+        // Forcefully close the site
+        function closeSite() {
+            alert("Developer Tools detected. Closing the site.");
+            window.close(); // Attempt to close the site
+            location.href = "about:blank"; // Redirect if close is blocked
+        }
+
+        // Detect key combinations for opening Developer Tools
+        document.onkeydown = function (e) {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                closeSite();
+                return false;
+            }
+        };
+
+        // Detect resizing of the window (can indicate Developer Tools opening)
+        window.onresize = function () {
+            if (
+                window.outerWidth - window.innerWidth > 100 || // Side tools opened
+                window.outerHeight - window.innerHeight > 100 // Bottom tools opened
+            ) {
+                closeSite();
+            }
+        };
+
+        // Continuous checking with `debugger`
+        setInterval(detectDevTools, 1000);
+    </script>
 </head>
 <body>
     <div align="center">
